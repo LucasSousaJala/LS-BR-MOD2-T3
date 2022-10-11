@@ -31,11 +31,12 @@ class Game:
                 self.playing = False
 
     def update(self):
-        self.player.update()
+        user_input = pygame.key.get_pressed()
+        self.player.update(user_input)
 
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255, 255, 255)) # "Possivel usar codigo Hexa decimal" como "FFFFFF"
+        self.screen.fill((255, 255, 255)) 
         self.draw_background()
         self.player.draw(self.screen)
         pygame.display.update()
