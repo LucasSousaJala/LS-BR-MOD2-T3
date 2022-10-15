@@ -56,10 +56,9 @@ class Game:
 
     def update_score(self):
         self.score += 1
-        self.score_reach = self.score - 1
         if self.score % 100 == 0:
             self.game_speed += 5
-          
+
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255)) # "#FFFFFF"
@@ -67,7 +66,6 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
-        self.draw_death()
         pygame.display.update()
         pygame.display.flip()
 
@@ -85,13 +83,6 @@ class Game:
         text = font.render(f"Score: {self.score}", True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
-        self.screen.blit(text, text_rect)
-
-    def draw_death(self):
-        font = pygame.font.Font(FONT_STYLE, 22)        
-        text = font.render(f"Death Count: {self.death_count}", True, (0, 0, 0))
-        text_rect = text.get_rect()
-        text_rect.center = (100, 50) 
         self.screen.blit(text, text_rect)    
 
     def handle_events_on_menu(self):
@@ -100,28 +91,27 @@ class Game:
                 self.playing = False
                 self.running = False
             elif event.type == pygame.KEYDOWN:
-                self.score = 0
-                self.game_speed = 20                 
                 self.run()
 
     def show_menu(self):
         self.screen.fill((255, 255, 255))
         half_screen_height = SCREEN_HEIGHT // 2
         half_screen_width = SCREEN_WIDTH // 2
-        font = pygame.font.Font(FONT_STYLE, 22)
-        text = font.render("Press any key to start", True, (0, 0, 0))
-        text_rect = text.get_rect()
-        text_rect.center = (half_screen_width, half_screen_height)
 
-        if self.death_count > 0:
-            text = font.render("Press any key to restart", True, (0, 0, 0))       
+        if self.death_count == 0:
+            font = pygame.font.Font(FONT_STYLE, 22)
+            text = font.render("Press any key to start", True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (half_screen_width, half_screen_height)
             self.screen.blit(text, text_rect)
+        else:
+            # "Press any key to restart"
+            # Score atingido
+            # Contador de vidas perdidas atingido
+            # Resetar a contagem de: prontuação e velocidade
+            ## **Criar uma forma de não repetir a formatação do texto**
             self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))
-            self.score = self.score_reach
-            self.draw_death()
-            self.draw_score()
 
-        self.screen.blit(text, text_rect)
         pygame.display.flip()
 
         self.handle_events_on_menu()
