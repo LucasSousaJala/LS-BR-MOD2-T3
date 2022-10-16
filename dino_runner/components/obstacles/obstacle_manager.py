@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from dino_runner.utils.constants import DIE
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
 
@@ -22,6 +23,7 @@ class ObstacleManager:
             obstacle.update(game.game_speed, self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
                 if not game.player.has_power_up:
+                    self.play_sound(DIE)
                     pygame.time.delay(500)
                     game.playing = False
                     game.death_count += 1
@@ -35,3 +37,9 @@ class ObstacleManager:
     def draw(self, screen):
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+
+    def play_sound(self, sound):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(sound)
+        pygame.mixer.music.play(1)  
+        pygame.mixer.music.set_volume = -10
