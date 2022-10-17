@@ -1,3 +1,5 @@
+from operator import truediv
+from pickle import TRUE
 import random
 import pygame
 from dino_runner.components.powerups.hammer import Hammer
@@ -24,7 +26,12 @@ class PowerUpManager:
             power_up.update(game_speed, self.power_ups)
             if player.dino_rect.colliderect(power_up.rect):
                 power_up.start_time = pygame.time.get_ticks()
-                player.shield = True
+                if self.power_ups == 1:
+                    player.shield = True
+                    player.hammer = False
+                else:
+                    player.hammer =True
+                    player.shield = False
                 player.has_power_up = True
                 player.type = power_up.type
                 player.power_up_time = power_up.start_time + (power_up.duration * 1000)

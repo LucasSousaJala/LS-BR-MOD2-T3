@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from dino_runner.utils.constants import DIE
+from dino_runner.utils.constants import DIE, HAMMER_TYPE
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
 
@@ -29,7 +29,8 @@ class ObstacleManager:
                     game.death_count += 1
                     break
                 else:
-                    self.obstacles.remove(obstacle)
+                    if game.player.type == HAMMER_TYPE:
+                        self.obstacles.remove(obstacle)
 
     def reset_obstacles(self):
         self.obstacles = []

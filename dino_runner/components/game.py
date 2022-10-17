@@ -10,7 +10,6 @@ from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 from dino_runner.utils.text_utils import draw_message_component
 from dino_runner.components.powerups.power_up_manager import PowerUpManager
 
-FONT_SIZE_MENU = 40
 
 class Game:
     def __init__(self):
@@ -73,9 +72,15 @@ class Game:
         self.score += 1
         self.score_reach = self.score - 1
         score_sound = mixer.Sound("dino_runner/assets/Other/point.ogg")
+        score_1000 = mixer.Sound("dino_runner/assets/Other/1000p.wav")
         if self.score % 100 == 0:
             self.game_speed += 2
             score_sound.play()
+            time.sleep(0)
+        if self.score % 1000 == 0:
+            self.game_speed += 2
+            score_sound.stop()
+            score_1000.play()
             time.sleep(0)
         if self.best_Score < self.score:
             self.best_Score = self.score_reach
@@ -117,7 +122,7 @@ class Game:
             self.screen,
             pos_x_center=960,
             pos_y_center=50,
-            font_size= 40,
+            font_size= 30,
             font_color = (0, 0, 255)
         )   
     
@@ -127,7 +132,7 @@ class Game:
             self.screen,
             pos_y_center= 50,
             pos_x_center = 150,
-            font_size= 40,
+            font_size= 30,
             font_color = (255, 0, 0)
         )
 
@@ -179,6 +184,7 @@ class Game:
                 pos_y_center = half_screen_height -100,
                 font_size = 35,
                 font_color = (255, 0 ,0)
+                
             )
             draw_message_component(
                 f"Best Score: {self.best_Score}",
@@ -200,6 +206,6 @@ class Game:
         pygame.mixer.music.stop()
         pygame.mixer.music.load(music)
         pygame.mixer.music.play(-1)  
-        pygame.mixer.music.set_volume = 60
+        pygame.mixer.music.set_volume == 60
 
     
